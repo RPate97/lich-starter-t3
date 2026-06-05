@@ -16,6 +16,12 @@ services:
       interval: 1s
       timeout: 1s
       retries: 30
+    lifecycle:
+      # Push the Prisma schema BEFORE web starts. Top-level `after_up` would
+      # run after everything is "ready", but the Next.js home page queries
+      # the DB and fails its ready_when probe if the schema isn't there yet.
+      after_ready:
+        - npx prisma db push --skip-generate
 
 owned:
   web:
@@ -40,5 +46,3 @@ env:
 lifecycle:
   before_up:
     - "[ -d node_modules ] || npm install --no-audit --no-fund"
-  after_up:
-    - npx prisma db push --skip-generate
