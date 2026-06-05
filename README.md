@@ -59,9 +59,16 @@ npm run dev
 
 You give up worktree isolation and the per-worktree port allocation, but the app runs.
 
+## Agent integration
+
+The `lich` skill is preinstalled at `.claude/skills/lich/`. Any coding agent you open this project in (Claude Code, etc.) automatically picks it up and learns how to use lich (when to `lich up` vs `lich restart`, where logs live, how to read `lich.yaml`, etc.). No `npx skills add` needed.
+
+The skill is a vendored copy of the canonical version at [RPate97/lich/skills/lich](https://github.com/RPate97/lich/tree/main/skills/lich). To update it, copy the latest from the lich repo.
+
 ## Files of interest
 
 - `lich.yaml` — the stack definition. One Postgres service, one Next.js owned process. ~30 lines.
+- `.claude/skills/lich/` — vendored lich agent skill. See above.
 - `prisma/schema.prisma` — Prisma data model. Change as needed.
 - `src/app/` — Next.js App Router code.
 - `src/server/api/` — tRPC routers.
