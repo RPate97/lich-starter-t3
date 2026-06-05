@@ -1,0 +1,44 @@
+version: "1"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - { container_port: 5432, published_env: POSTGRES_HOST_PORT }
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: lich_starter_t3
+    tmpfs:
+      - /var/lib/postgresql/data    # ephemeral; gone on `lich down`
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+
+owned:
+  web:
+    cmd: npm run dev
+    cwd: .
+    port: { published_env: PORT }
+    depends_on: [postgres]
+    ready_when:
+      http_get: /
+      timeout: 60s
+
+env_files:
+  - .env
+
+env:
+  # Lich allocates the postgres host port dynamically per worktree, so the
+  # DATABASE_URL is built from interpolation. The .env file's DATABASE_URL
+  # (used by `npm run dev` without lich) is overridden by this literal at
+  # `lich up` time.
+  DATABASE_URL: "postgresql://postgres:password@localhost:${services.postgres.host_port}/lich_starter_t3"
+
+lifecycle:
+  before_up:
+    - "[ -d node_modules ] || npm install --no-audit --no-fund"
+  after_up:
+    - npx prisma db push --skip-generate
