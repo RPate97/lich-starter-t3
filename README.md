@@ -2,11 +2,11 @@
 
 The [T3 Stack](https://create.t3.gg/) (Next.js + tRPC + Prisma + Tailwind), preconfigured to run with [lich](https://lich.sh) for per-worktree isolation.
 
-Run this template in N git worktrees and you get N independent dev stacks side by side. Each gets its own Postgres, its own dynamically allocated ports, its own dashboard tile, and its own friendly URL. No port juggling, no compose project collisions, no manual env wrangling.
+Run this template in N git worktrees and you get N independent dev stacks side by side. Each gets its own Postgres, its own dynamically allocated ports, its own dashboard tile, and its own friendly URL.
 
 ## Quickstart
 
-You need [lich](https://lich.sh) and Docker (or OrbStack / Podman).
+You need [lich]((https://github.com/RPate97/lich) and Docker (or OrbStack / Podman).
 
 ```bash
 git clone https://github.com/RPate97/lich-starter-t3
@@ -79,8 +79,6 @@ The skill is a vendored copy of the canonical version at [RPate97/lich/skills/li
 
 - **lich docs**: [lich.sh](https://lich.sh)
 - **t3 docs**: [create.t3.gg](https://create.t3.gg)
-- **Add NextAuth**: this template excludes auth for a faster demo. Re-run `npm create t3-app` against a fresh dir with auth enabled and port the relevant files over, or follow [the NextAuth.js Next.js guide](https://next-auth.js.org/getting-started/example).
-- **Switch from Prisma to Drizzle**: same drill — `create-t3-app` supports both; choose the Drizzle path and re-port.
 
 ## License
 
